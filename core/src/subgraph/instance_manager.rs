@@ -475,23 +475,20 @@ where
         let chain = ctx.inputs.chain.clone();
 
         let mut block_stream = match chain.is_firehose_supported() {
-            true => {
-                let firehose_cursor = ctx.inputs.store.block_cursor()?;
-
-                chain.new_firehose_block_stream(
-                    ctx.inputs.deployment.clone(),
-                    ctx.inputs.start_blocks.clone(),
-                    firehose_cursor,
-                    Arc::new(ctx.state.filter.clone()),
-                    ctx.block_stream_metrics.clone(),
-                    ctx.inputs.unified_api_version.clone(),
-                )
-            }
+            true => chain.new_firehose_block_stream(
+                ctx.inputs.deployment.clone(),
+                ctx.inputs.store.clone(),
+                ctx.inputs.start_blocks.clone(),
+                Arc::new(ctx.state.filter.clone()),
+                ctx.block_stream_metrics.clone(),
+                ctx.inputs.unified_api_version.clone(),
+            ),
             false => {
                 let start_block = ctx.inputs.store.block_ptr()?;
 
                 chain.new_polling_block_stream(
                     ctx.inputs.deployment.clone(),
+                    ctx.inputs.store.clone(),
                     ctx.inputs.start_blocks.clone(),
                     start_block,
                     Arc::new(ctx.state.filter.clone()),
