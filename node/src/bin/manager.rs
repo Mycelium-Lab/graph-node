@@ -356,6 +356,7 @@ struct Context {
     node_id: NodeId,
     config: Cfg,
     registry: Arc<MetricsRegistry>,
+    pub prometheus_registry: Arc<Registry>,
 }
 
 impl Context {
@@ -371,6 +372,7 @@ impl Context {
             node_id,
             config,
             registry,
+            prometheus_registry,
         }
     }
 
