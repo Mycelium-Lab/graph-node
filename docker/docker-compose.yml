@@ -1,6 +1,7 @@
 version: '3'
 services:
   graph-node:
+    restart: always
     image: graphprotocol/graph-node
     ports:
       - '8000:8000'
@@ -20,12 +21,14 @@ services:
       ethereum: 'matic:https://polygon-rpc.com/'
       GRAPH_LOG: info
   ipfs:
+    restart: always
     image: ipfs/go-ipfs:v0.4.23
     ports:
       - '5001:5001'
     volumes:
       - ./data/ipfs:/data/ipfs
   postgres:
+    restart: always
     image: postgres
     ports:
       - '5432:5432'
